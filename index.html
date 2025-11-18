@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proforma - Desarrollo de Tienda Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.3;
+            color: #333;
+            background: white;
+            padding: 8px;
+            font-size: 12px;
+        }
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            padding: 15px;
+        }
+        .header {
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        .header h1 {
+            color: #2c3e50;
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+        .header p {
+            color: #7f8c8d;
+            font-size: 13px;
+        }
+        .info-box {
+            background: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            border-left: 3px solid #3498db;
+            display: flex;
+            justify-content: space-between;
+        }
+        .info-box p {
+            margin: 0;
+        }
+        .section {
+            margin-bottom: 15px;
+            page-break-inside: avoid;
+        }
+        .section h2 {
+            color: #2c3e50;
+            font-size: 14px;
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #3498db;
+        }
+        .plans-comparison {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        @media (min-width: 768px) {
+            .plans-comparison {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        .plan-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 12px;
+            background: white;
+        }
+        .plan-header {
+            background: #3498db;
+            color: white;
+            padding: 6px 10px;
+            margin: -12px -12px 8px -12px;
+            border-radius: 4px 4px 0 0;
+            font-weight: bold;
+            font-size: 13px;
+            text-align: center;
+        }
+        .plan-price {
+            font-size: 16px;
+            color: #27ae60;
+            font-weight: bold;
+            margin: 6px 0;
+            text-align: center;
+        }
+        .feature-list {
+            list-style: none;
+            margin: 8px 0;
+            font-size: 11px;
+        }
+        .feature-list li {
+            padding: 3px 0;
+            padding-left: 15px;
+            position: relative;
+        }
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .cost-breakdown {
+            background: #f9f9f9;
+            padding: 8px;
+            border-radius: 3px;
+            margin-top: 8px;
+            font-size: 11px;
+        }
+        .cost-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 0;
+        }
+        .cost-total {
+            border-top: 1px solid #2c3e50;
+            margin-top: 4px;
+            padding-top: 4px;
+            font-weight: bold;
+        }
+        .total-includes {
+            background: #e8f4f8;
+            padding: 6px;
+            border-radius: 3px;
+            margin-top: 6px;
+            font-size: 10px;
+            border-left: 2px solid #3498db;
+        }
+        .plan-note {
+            margin-top: 6px;
+            font-size: 10px;
+            padding: 4px 6px;
+            border-radius: 2px;
+        }
+        .conditions {
+            background: #f8f9fa;
+            padding: 10px 12px;
+            border-radius: 4px;
+        }
+        .conditions ul {
+            margin-left: 12px;
+        }
+        .conditions li {
+            margin-bottom: 4px;
+            font-size: 11px;
+        }
+        .payment-info {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 12px;
+            border-radius: 4px;
+        }
+        .payment-info h3 {
+            color: #856404;
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+        .payment-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 6px;
+            font-size: 11px;
+        }
+        .footer {
+            margin-top: 15px;
+            padding-top: 8px;
+            border-top: 1px solid #ecf0f1;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 10px;
+        }
+        .highlight {
+            background: #ffffcc;
+            padding: 1px 3px;
+            border-radius: 2px;
+            font-weight: bold;
+        }
+        .note-box {
+            background: #e8f4f8;
+            padding: 6px 8px;
+            border-radius: 3px;
+            margin: 6px 0;
+            font-size: 11px;
+            border-left: 2px solid #3498db;
+        }
+        
+        /* Estilos para impresión */
+        @media print {
+            body {
+                padding: 3px;
+                font-size: 10px;
+            }
+            .container {
+                padding: 8px;
+            }
+            .plans-comparison {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 6px;
+            }
+            .plan-card {
+                padding: 8px;
+            }
+            .plan-header {
+                padding: 4px 6px;
+                margin: -8px -8px 6px -8px;
+                font-size: 11px;
+            }
+            .info-box {
+                flex-direction: column;
+                gap: 3px;
+            }
+            p{
+                font-size: 15px;
+            }
+            .feature-list li{
+                font-size: 15px;
+            }
+            .conditions li{
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>PROFORMA DE SERVICIOS</h1>
+            <p>Desarrollo de Tienda Online con Gestión de Inventario y Ventas</p>
+        </div>
+        <img src=".\logo.png" alt="Logo" style="max-width: 350px; display: block; margin: 0 auto 10px auto;">
+        <div class="info-box">
+            <p><strong>Plazo de Entrega:</strong> <span class="highlight">2 - 3 semanas después del pago inicial</span></p>
+            <p><strong>Pago Inicial Requerido:</strong> S/ 100.00</p>
+            <p><strong>Fecha:</strong> <span id="fecha"></span></p>
+        </div>
+
+        <div class="section">
+        <h2>1. DESCRIPCIÓN DEL PROYECTO</h2>
+            <p>Desarrollo e implementación de una <strong>tienda virtual completa y funcional</strong>, diseñada para facilitar la gestión del negocio y optimizar la experiencia de compra del usuario. El proyecto abarca tanto la parte visual como el sistema interno de administración, asegurando un entorno seguro, escalable y fácil de usar. </p>
+
+        <ul class="feature-list">
+            <li>Sistema de gestión de inventario de productos con control de stock en tiempo real</li>
+            <li>Catálogo de productos con imágenes, descripciones detalladas, precios y variaciones (según características del producto)</li>
+            <li>Sistema de gestión de ventas con historial de pedidos, estados</li>
+            <li>Panel de administración intuitivo para gestionar productos, categorías, usuarios y pedidos</li>
+            <li>Diseño responsive (adaptable a móviles, tablets y pantallas de distintos tamaños)</li>
+            <li>Integración de métodos de pago según el plan seleccionado (tarjeta, transferencia, pasarelas de pago, etc.)</li>
+        </ul>
+
+        </div>
+
+        <div class="section">
+            <h2>2. OPCIONES DE PLAN</h2>
+            <p>En todos los planes la inicial es de S/ 100.00</p>
+            <div class="note-box">
+                💡 <strong>¿Cuál es la diferencia?</strong><br>
+                • <strong>Tienda Online:</strong> Donde tus clientes ven y compran productos<br>
+                • <strong>Página Web (OPCIONAL):</strong> Tu "tarjeta de presentación digital"<br>
+                <em>Puedes contratar solo la tienda, o tienda + página web</em>
+            </div>
+            
+            <div class="plans-comparison">
+                <div class="plan-card">
+                    <div class="plan-header">PLAN 1: Wix Payments</div>
+                    <div class="plan-price">S/ 400 - 600</div>
+                    
+                    <ul class="feature-list">
+                        <li>Tienda online completa</li>
+                        <li>Página web informativa (opcional)</li>
+                        <li>Integración con Wix Payments</li>
+                        <li>Hosting profesional externo</li>
+                        <li>Gestión de inventario y ventas</li>
+                        <li>Capacitación incluida</li>
+                    </ul>
+                    
+                    <div class="cost-breakdown">
+                        <div class="cost-item">
+                            <span>Pago inicial</span>
+                            <span>S/ 100.00</span>
+                        </div>
+                        <div class="cost-item">
+                            <span>Tienda online</span>
+                            <span>S/ 300.00</span>
+                        </div>
+                        <div class="cost-item">
+                            <span>Página web (opcional)</span>
+                            <span>S/ 200.00</span>
+                        </div>
+                        <div class="cost-item cost-total">
+                            <span>TOTAL básico (solo tienda)</span>
+                            <span>S/ 400.00</span>
+                        </div>
+                        <div class="cost-item cost-total">
+                            <span>TOTAL completo (tienda + web)</span>
+                            <span>S/ 600.00</span>
+                        </div>
+                    </div>
+
+                    <div class="plan-note" style="background: #ffeaa7;">
+                        <strong>Nota:</strong> Wix cobra 2.9% + tarifa fija por transacción
+                        <br>
+                        <strong>Nota 2:</strong> Este plan demoraria en 3 semanas debido a la plataforma Wix
+                    </div>
+                    <div class="plan-note" style="background: #dfe6e9;">
+                        <strong>Hosting:</strong> S/ 107.00/año (pago directo)
+                    </div>
+                </div>
+
+                <div class="plan-card">
+                    <div class="plan-header">PLAN 2: Mercado Pago</div>
+                    <div class="plan-price">S/ 400 - 600</div>
+                    
+                    <ul class="feature-list">
+                        <li>Tienda online completa</li>
+                        <li>Página web corporativa (opcional)</li>
+                        <li>Integración con Mercado Pago</li>
+                        <li>Hosting profesional externo</li>
+                        <li>Gestión de inventario y ventas</li>
+                        <li>Capacitación incluida</li>
+                    </ul>
+                    
+                    <div class="cost-breakdown">
+                        <div class="cost-item">
+                            <span>Pago inicial</span>
+                            <span>S/ 100.00</span>
+                        </div>
+                        <div class="cost-item">
+                            <span>Tienda online</span>
+                            <span>S/ 300.00</span>
+                        </div>
+                        <div class="cost-item">
+                            <span>Página web (opcional)</span>
+                            <span>S/ 200.00</span>
+                        </div>
+                        <div class="cost-item cost-total">
+                            <span>TOTAL básico (solo tienda)</span>
+                            <span>S/ 400.00</span>
+                        </div>
+                        <div class="cost-item cost-total">
+                            <span>TOTAL completo (tienda + web)</span>
+                            <span>S/ 600.00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="plan-note" style="background: #ffeaa7;">
+                        <strong>Nota:</strong> Mercado Pago cobra 3.99% + IVA por venta online
+                    </div>
+                    <div class="plan-note" style="background: #dfe6e9;">
+                        <strong>Hosting:</strong> S/ 107.00/año (pago directo)
+                    </div>
+                </div>
+
+                <div class="plan-card">
+                    <div class="plan-header">PLAN 3: Gestión Manual</div>
+                    <div class="plan-price">S/ 400 - 600</div>
+                    
+                    <ul class="feature-list">
+                        <li>Tienda online completa</li>
+                        <li>Página web informativa (opcional)</li>
+                        <li>Gestión de pedidos vía WhatsApp</li>
+                        <li>Sin pasarela de pago integrada</li>
+                        <li>Hosting profesional externo</li>
+                        <li>Gestión de inventario y ventas</li>
+                        <li>Capacitación incluida</li>
+                    </ul>
+                    
+                    <div class="cost-breakdown">
+                        <div class="cost-item">
+                            <span>Pago inicial</span>
+                            <span>S/ 100.00</span>
+                        </div>
+                        <div class="cost-item">
+                            <span>Solo Tienda online</span>
+                            <span>S/ 300.00</span>
+                        </div>
+                        <div class="cost-item">
+                            <span>Solo Página web</span>
+                            <span>S/ 200.00</span>
+                        </div>
+                        <div class="cost-item cost-total">
+                            <span>TOTAL básico (solo tienda)</span>
+                            <span>S/ 400.00</span>
+                        </div>
+                        <div class="cost-item cost-total">
+                            <span>TOTAL completo (tienda + web)</span>
+                            <span>S/ 600.00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="plan-note" style="background: #d4edda;">
+                        <strong>Ventaja:</strong> Sin comisiones por transacción
+                    </div>
+                    <div class="plan-note" style="background: #dfe6e9;">
+                        <strong>Hosting:</strong> S/ 107.00/año (opcional según necesidad)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section conditions">
+            <h2>3. CONDICIONES DEL SERVICIO</h2>
+            <ul>
+                <li><strong>Pago Inicial:</strong> Adelanto de S/ 100.00 para iniciar el proyecto</li>
+                <li><strong>Plazo de Entrega:</strong> 2 semanas (14 días hábiles)</li>
+                <li><strong>Forma de Pago:</strong> 100 soles la inicial, El resto al entregar al final</li>
+                <li><strong>Garantía:</strong> 30 días de soporte técnico gratuito</li>
+                <li><strong>Revisiones:</strong> Rondas de revisiones incluidas</li>
+                <li><strong>Capacitación:</strong> Sesiónes de capacitación incluida</li>
+                <li><strong>Contenido:</strong> Cliente proporciona textos e imágenes</li>
+                <li><strong>Hosting:</strong> S/ 107.00/año (renovable)</li>
+                <li><strong>Comisiones:</strong>Son responsabilidad del cliente con el plan que haya escogido</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>4. DATOS DE PAGO</h2>
+            <div class="payment-info">
+                <h3>Información Bancaria</h3>
+                <div class="payment-details">
+                    <div>
+                        <p><strong>Titular:</strong> QP Secure Solution</p>
+                        <p><strong>Banco:</strong> BCP</p>
+                    </div>
+                    <div>
+                        <p><strong>N° de Cuenta:</strong> 2157302218093</p>
+                        <p><strong>CCI:</strong> 00221500730221809326</p>
+                    </div>
+                </div>
+                <p style="margin-top: 8px; font-size: 10px; font-style: italic;">
+                    Enviar comprobante vía WhatsApp o correo electrónico para confirmar.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mostrar fecha actual
+        const fecha = new Date();
+        const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('fecha').textContent = fecha.toLocaleDateString('es-PE', opciones);
+    </script>
+</body>
+</html>
